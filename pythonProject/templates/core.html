@@ -1,0 +1,19 @@
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core</title>
+    {% tailwind_css %}
+</head>
+<body>
+    <div class="min-h-screen flex flex-row bg-gray-100">
+    {% include 'sidebar.html' %}
+
+    {% block content %}
+
+    {% endblock %}
+    </div>
+</body>
+</html>

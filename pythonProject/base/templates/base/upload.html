@@ -1,0 +1,36 @@
+{% extends 'core.html' %}
+
+
+
+
+
+{% block content %}
+
+
+<div class="w-full ">
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+            Upload File :
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="document">
+        </div>
+        <div class="mb-6">
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">submit</button>
+        </div>
+        
+        {% if url %}
+        <p>Uploaded file: <a href="{{ url }}" class="text-blue-800">{{ url }}</a></p>
+        {% endif %}
+
+    </form>
+    <div>
+        {% if text %}
+        <p>{{ text }}</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
