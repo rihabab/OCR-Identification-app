@@ -1,3 +1,4 @@
+import os
 import sys
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -6,10 +7,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from .models import IdCard
 import pytesseract
+
+from base.face_test import testing
+from base.process import processing
+
 import PIL.Image
 import cv2
 
-import os
+
 
 import easyocr
 sys.stdout.reconfigure(encoding='utf-8')
@@ -52,7 +57,7 @@ def home(request):
         context={}
         return render(request, 'base/login.html', context)
 
-    
+   
 def uploadFile(request):
     if request.user.is_authenticated :
         context = {}
@@ -62,9 +67,9 @@ def uploadFile(request):
                 fs = FileSystemStorage()
                 name = fs.save(uploaded_file.name, uploaded_file)
                 context['url'] = fs.url(name)
-                image_path = os.path.join(r"C:\Users\Rihab\PycharmProjects\pythonProject\pythonProject\media", name)
+                image_path = 'C:/Users/Rihab/PycharmProjects/pythonProject/pythonProject/' + context['url']
+                print(image_path)
                 img = cv2.imread(image_path)
-
                 def grayscale(image):
                     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 gray_image = grayscale(img)
@@ -111,7 +116,11 @@ def uploadFile(request):
                 dict['Expiration'] = array[18][1]
                 dict['Délivréeà'] = array[20][1]
 
+                p_name= dict['nom'] + "_" + dict['prénom'] + ".jpg"
+                new_image_path = os.path.join('C:/Users/Rihab/PycharmProjects/pythonProject/pythonProject/base/known_faces/', p_name)
+                os.rename(image_path, new_image_path)
 
+                context['url']= new_image_path
                 context['array'] = array
 
                 context['dict'] = dict
@@ -137,6 +146,8 @@ def uploadFile(request):
                 placeofissue = request.POST.get('Délivréeà')
                 user = request.user
                 
+
+
                 IdCard.objects.create(
                     country=country,
                     typecard=typecard,
@@ -160,10 +171,32 @@ def uploadFile(request):
                     user=user
                 )
                 messages.success(request, 'user identified successfuly')
-        
+
+                processing()
 
 
         return render(request, 'base/upload.html', context)
     else:
         context={}
         return render(request, 'base/login.html', context)
+def recognition(request):
+    context = {}
+    if request.user.is_authenticated :
+        if request.method == 'POST':
+            if 'document' in request.FILES:
+                uploaded_file = request.FILES['document']
+                fs = FileSystemStorage()
+                name = fs.save(uploaded_file.name, uploaded_file)
+                context['url'] = fs.url(name)
+                image_path = 'C:/Users/Rihab/PycharmProjects/pythonProject/pythonProject' + context['url']
+                print(image_path)
+                # image_path = os.path.join(r"C:\Users\Rihab\PycharmProjects\pythonProject\pythonProject\base\recognition", name)
+                
+                context['result']=testing(image_path)
+                print(context['result'])
+        return render(request, 'base/recognition.html', context)
+    else:
+        return render(request, 'base/login.html', context)
+    
+
+

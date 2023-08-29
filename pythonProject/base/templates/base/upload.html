@@ -30,7 +30,7 @@
         
         {% if url %}
         <!-- <p class="text-sm">Uploaded file: <a href="{{ url }}" class="text-blue-800">{{ url }}</a></p> -->
-        <img src="{{ url }}" alt="image" style="width:300px">
+        <img src="{{ url }}" alt="image" style="width:400px">
         {% endif %}
 
     </form>
@@ -52,6 +52,7 @@
         
         <form action="" method="POST" >
             {% csrf_token %}
+            <input type="text" name="image_path" value="{{ url }}" style="display: none;">
             <div class="grid gap-6 mb-6 md:grid-cols-2 ">
                 <div >
                     <input type="text"  value="{{ dict.pays }}" name="pays" class="bg-gray-50 border  border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
