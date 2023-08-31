@@ -27,20 +27,125 @@
                 </button>
             </div>
         </div>
-        
-        {% if url %}
-        <!-- <p class="text-sm">Uploaded file: <a href="{{ url }}" class="text-blue-800">{{ url }}</a></p> -->
-        <img src="{{ url }}" alt="image" style="width:400px">
-        {% endif %}
+        <div class="">
+            {% if url %}
+            <!-- <p class="text-sm">Uploaded file: <a href="{{ url }}" class="text-blue-800">{{ url }}</a></p> -->
+            <div class="ml-80">
+                <img src="{{ url }}" alt="image" style="width:200px; height: 200px;">
+            </div>
+            {% endif %}
 
-        {% if result %}
-        <p>{{ result }}</p>
-        {% endif %}
-
+            {% if res %}
+            <div class="p-4 mt-11 text-center">
+                <p class="block text-gray-700 text-2xl font-bold mb-2">{{ res }}</p>
+            </div>
+            {% endif %}
+        </div>
     </form>
     
     <hr>
     <hr>
+    
+    <div >
+        {% if dict %}
+        
+        
+
+
+        
+        <form action="" method="POST" >
+            {% csrf_token %}
+            <input type="text" name="image_path" value="{{ url }}" style="display: none;">
+            <div class="grid gap-6 mb-6 md:grid-cols-2 ">
+                <div >
+                    <input type="text"  value="{{ dict.country }}" name="pays" class="bg-gray-50 border  border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div> 
+                <div>
+                    <input type="text"  value="{{ dict.typecard }}" name="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Nom</label>
+                    <input type="text" value="{{ dict.lastname }}" name="nom" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Prénom</label>
+                    <input type="text"  value="{{ dict.firstname }}" name="prénom" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>  
+            </div>  
+            <!-- <div class="grid gap-2 mb-6 md:grid-cols-4"> -->
+            <div class="flex flex-row gap-6">
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Sexe</label>
+                    <input type="text"  value="{{ dict.sex }}" name="sexe" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Nationalité</label>
+                    <input type="text" value="{{ dict.nationality }}" name="nationalité" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Taille</label>
+                    <input type="text" value="{{ dict.height }}" name="taille" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Taille</label>
+                    <input type="text" value="{{ dict.color }}" name="teint" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div class="mb-6">
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Date de naissance</label>
+                    <input type="text"  value="{{ dict.dateofbirth }}" name="Datedenaissance" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+            </div>
+            <div class="grid gap-6 mb-6 md:grid-cols-2"> 
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Cheveux</label>
+                    <input type="text"  value="{{ dict.haircolor }}" name="Cheveux" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Adresse</label>
+                    <input type="text"  value="{{ dict.adress }}" name="Adresse" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">yeux</label>
+                    <input type="text"  value="{{ dict.eyecolor }}" name="yeux" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+            
+                <div>
+                    <label for="visitors" class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">signes particuliers</label>
+                    <input type="text"  value="{{ dict.mark }}" name="signesparticuliers" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div >
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">numero de telephone</label>
+                    <input type="text"  value="{{ dict.phonenumber }}" name="numerodetelephone" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Acte de naissance</label>
+                    <input type="text"  value="{{ dict.birthcertificate }}" name="Actedenaissance" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">du on</label>
+                    <input type="text"  value="{{ dict.du }}" name="duon" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">N de doc</label>
+                    <input type="text"  value="{{ dict.docnumber }}" name="Ndedoc" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div class="mb-6">
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Expiration</label>
+                    <input type="text"  value="{{ dict.expiry }}" name="Expiration" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+                <div class="mb-6">
+                    <label  class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Délivrée à</label>
+                    <input type="text"  value="{{ dict.placeofissue }}" name="Délivréeà" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                </div>
+            </div>
+             
+            
+        </form>
+        
+        {% endif %}
+
+    </div>
     
 </div>
 

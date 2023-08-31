@@ -90,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ocrproject',
         'USER': 'root',
-        'PASSWORD': 'rihabtkd',
+        'PASSWORD': '',
         'HOST': 'localhost',  # or the hostname where your MySQL server is running
         'PORT': '3306',      # or the port on which your MySQL server is listening
     }
@@ -143,7 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # MEDIA_URL= 'media/'
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'base/known_faces/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-MEDIA_URL= 'base/known_faces/'
+MEDIA_URL= 'media/'
 

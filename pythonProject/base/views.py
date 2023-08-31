@@ -13,7 +13,7 @@ from base.process import processing
 
 import PIL.Image
 import cv2
-
+import shutil
 
 
 import easyocr
@@ -24,6 +24,7 @@ reader = easyocr.Reader(['en', 'fr'])
 
 
 def loginPage(request):
+    context={}
     if request.user.is_authenticated :
         return render(request, 'base/home.html')
     else:
@@ -33,15 +34,17 @@ def loginPage(request):
             try:
                 user = User.objects.get(username=username)
             except:
-                messages.error(request, "User does not exist !!")
+                # messages.error(request, "User does not exist !!")
+                context['res']='User name or password invalide!'
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
                 login(request, user)
                 return redirect('home')
             else:
-                messages.error(request, "Username or password does not exist !!")
-        context={}
+                # messages.error(request, "Username or password does not exist !!")
+                context['res']='User name or password invalide!'
+        
         return render(request, 'base/login.html', context)
 
 
@@ -116,11 +119,10 @@ def uploadFile(request):
                 dict['Expiration'] = array[18][1]
                 dict['Délivréeà'] = array[20][1]
 
-                p_name= dict['nom'] + "_" + dict['prénom'] + ".jpg"
-                new_image_path = os.path.join('C:/Users/Rihab/PycharmProjects/pythonProject/pythonProject/base/known_faces/', p_name)
-                os.rename(image_path, new_image_path)
+                # p_name= dict['nom'] + "_" + dict['prénom'] + ".jpg"
+                # new_image_path = os.path.join('C:/Users/Rihab/PycharmProjects/pythonProject/pythonProject/base/known_faces/', p_name)
+                # os.rename(image_path, new_image_path)
 
-                context['url']= new_image_path
                 context['array'] = array
 
                 context['dict'] = dict
@@ -145,6 +147,8 @@ def uploadFile(request):
                 expiry = request.POST.get('Expiration')
                 placeofissue = request.POST.get('Délivréeà')
                 user = request.user
+                image_path = request.POST.get('image_path')
+
                 
 
 
@@ -172,7 +176,27 @@ def uploadFile(request):
                 )
                 messages.success(request, 'user identified successfuly')
 
-                processing()
+
+
+                destination_directory = 'C:/Users/Rihab/PycharmProjects/pythonProject/pythonProject/base/known_faces'
+                new_name = lastname + '_' + firstname +'.jpg'
+                destination_path = os.path.join(destination_directory, new_name)
+                image_path='C:/Users/Rihab/PycharmProjects/pythonProject/pythonProject/' + image_path
+                print(image_path)
+                if os.path.exists(image_path):
+                    print('exists')
+                    if os.path.exists(destination_path):
+                        print("The image exists.")
+                    else:
+                        shutil.copy2(image_path, destination_path)
+                        processing()
+                else :
+                    print('does not exist')
+
+                
+
+
+                # processing()
 
 
         return render(request, 'base/upload.html', context)
@@ -192,8 +216,33 @@ def recognition(request):
                 print(image_path)
                 # image_path = os.path.join(r"C:\Users\Rihab\PycharmProjects\pythonProject\pythonProject\base\recognition", name)
                 
-                context['result']=testing(image_path)
-                print(context['result'])
+
+                
+                result=testing(image_path)
+                print(result)
+                if result == None : 
+                    context['res']='No faces found in the image! Provide a clear one.'
+                elif result == 'Unknown':
+                    context['res']='The face does not belong to any of our users.'
+                else :
+                    context['result']=testing(image_path)
+                    print(context['result'])
+                    s = context['result']
+                    parts = s.split("_")
+                    print(parts)  
+                    lastname=parts[0]
+                
+                try:
+                    card = IdCard.objects.filter(lastname=lastname).first()
+                    context['dict']= card
+                    print('card')
+                    print(context['dict'])
+                except:
+                    print('unknown')
+
+
+
+                
         return render(request, 'base/recognition.html', context)
     else:
         return render(request, 'base/login.html', context)
